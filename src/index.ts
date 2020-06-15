@@ -1,3 +1,3 @@
-import { Normi } from 'store';
+import { Normi } from './store';
 
 export { Normi };

@@ -6,10 +6,10 @@ type NormiParams = {
 
 export class Normi {
   params: NormiParams;
-  constructor(params: Partial<NormiParams>) {
-    if (typeof params.id !== 'function' && !Array.isArray(params.id)) {
-      throw new Error(`Invalid type for params.id: ${typeof params.id}`);
-    }
+  constructor(params: Partial<NormiParams> = {}) {
+    // if (typeof params.id !== 'function' && !Array.isArray(params.id)) {
+    //   throw new Error(`Invalid type for params.id: ${typeof params.id}`);
+    // }
     this.params = {
       id: params.id || ['id'],
     };
@@ -17,9 +17,9 @@ export class Normi {
 
   @observable nodes: { [k: string]: { value: any } } = {};
 
-  @action merge = <T extends any>(data: T): { value: T } => {
+  @action merge = <T extends any>(rawData: T): { value: T } => {
     let id;
-
+    const data: any = rawData;
     if (typeof this.params.id === 'function') {
       id = this.params.id(data);
     } else if (Array.isArray(this.params.id)) {

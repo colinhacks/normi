@@ -4,7 +4,8 @@
     "types"
   ],
   "compilerOptions": {
-    "module": "esnext",
+    // "module": "esnext",
+    "module": "commonjs",
     "lib": [
       "dom",
       "esnext"
