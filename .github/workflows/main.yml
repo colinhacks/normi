@@ -21,8 +21,8 @@ jobs:
           restore-keys: |
             nodeModules-
       
-              - name: Install peer dependencies
-        run: yarn add mobx
+      - name: Install peer dependencies
+        run: yarn add 
         env:
           CI: true
       
