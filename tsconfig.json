@@ -4,8 +4,7 @@
     "types"
   ],
   "compilerOptions": {
-    // "module": "esnext",
-    "module": "commonjs",
+    "module": "esnext",
     "lib": [
       "dom",
       "esnext"
@@ -18,8 +17,8 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
-    "experimentalDecorators": true,
     "noFallthroughCasesInSwitch": true,
+    "experimentalDecorators": true,
     "moduleResolution": "node",
     "baseUrl": "./",
     "paths": {
