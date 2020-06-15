@@ -2,7 +2,6 @@
   "version": "0.1.0",
   "license": "MIT",
   "name": "normi",
-  "type": "module",
   "author": "Colin McDonnell",
   "description": "A zero-config normalized cache for MobX",
   "repository": {
@@ -32,7 +31,7 @@
     "test": "tsdx test",
     "lint": "tsdx lint",
     "prepare": "tsdx build",
-    "play": "nodemon -e ts -w . -x ts-node src/playground.ts"
+    "play": "nodemon -e ts -w src -x 'tsc --project dev.tsconfig.json && node lib/index.js'"
   },
   "peerDependencies": {
     "mobx": "^5"

@@ -9,6 +9,7 @@
       "dom",
       "esnext"
     ],
+    "outDir": "lib",
     "importHelpers": true,
     "declaration": true,
     "sourceMap": true,

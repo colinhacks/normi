@@ -35,6 +35,7 @@ export class Normi {
       id = util.randomId();
     }
 
+    console.log(`id: ${id}`);
     const node = this.nodes[id] || {};
 
     if (Array.isArray(data)) {
