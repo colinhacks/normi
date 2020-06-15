@@ -22,7 +22,7 @@ jobs:
             nodeModules-
       
       - name: Install peer dependencies
-        run: yarn add 
+        run: yarn add mobx
         env:
           CI: true
       
