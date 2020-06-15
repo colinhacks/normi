@@ -20,7 +20,12 @@ jobs:
           key: nodeModules-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             nodeModules-
-
+      
+              - name: Install peer dependencies
+        run: yarn add mobx
+        env:
+          CI: true
+      
       - name: Install dependencies
         run: yarn install --frozen-lockfile
         env:
