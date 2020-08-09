@@ -1,36 +1,7 @@
 {
-  "include": [
-    "src",
-    "types"
-  ],
+  "extends": "./tsconfig.json",
   "compilerOptions": {
     "target": "es5",
-    "module": "commonjs",
-    "lib": [
-      "dom",
-      "esnext"
-    ],
-    "incremental": true,
-    "outDir": "lib",
-    "importHelpers": true,
-    "declaration": true,
-    "sourceMap": true,
-    "rootDir": "./src",
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "experimentalDecorators": true,
-    "moduleResolution": "node",
-    "baseUrl": "./",
-    "paths": {
-      "*": [
-        "src/*",
-        "node_modules/*"
-      ]
-    },
-    "jsx": "react",
-    "esModuleInterop": true
+    "module": "commonjs"
   }
 }

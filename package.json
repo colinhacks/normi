@@ -26,12 +26,13 @@
     "dist"
   ],
   "scripts": {
+    "clean": "rm -rf dist/*",
     "start": "tsdx watch",
-    "build": "tsdx build",
+    "build": "npm run clean && tsdx build",
     "test": "tsdx test",
     "lint": "tsdx lint",
-    "prepare": "tsdx build",
-    "play": "nodemon -e ts -w src -x 'tsc --project dev.tsconfig.json && node lib/index.js'"
+    "prepublishOnly": "tsdx build",
+    "play": "nodemon -e ts -w src -x 'tsc --project dev.tsconfig.json && node dist/index.js'"
   },
   "peerDependencies": {
     "mobx": "^5"

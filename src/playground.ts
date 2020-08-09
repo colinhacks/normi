@@ -2,41 +2,44 @@ import { Normi } from '.';
 
 export const play = async () => {
   const normi = new Normi({
-    id: ['id', '__typename'],
+    id: ['id'],
   });
 
   const obj1 = {
     id: 'asdf',
-    __typename: 'user',
-    a: 'asdf',
+    name: 'user1',
     posts: [
       {
-        id: 'asdf',
-        __typename: 'post',
+        id: 'post1',
       },
     ],
   };
 
   const obj2 = {
-    id: 'asdf',
-    __typename: 'post',
-    b: 'aslsdjkfsdfdf',
-    c: 12342134,
-    d: false,
+    ...obj1,
+    posts: [
+      {
+        id: 'post1',
+      },
+      {
+        id: 'post2',
+      },
+    ],
   };
 
-  const obj3 = {
-    id: 'asdf',
-    __typename: 'user',
-    b: 'swerqwer',
-  };
+  // const obj3 = {
+  //   id: 'asdf',
+  //   __typename: 'user',
+  //   b: 'swerqwer',
+  // };
 
-  const objs = [obj1, obj2, obj3];
+  const objs = [obj1, obj2, obj1];
 
   for (const obj of objs) {
-    let merged = normi.merge(obj);
-    console.log(JSON.stringify(merged, null, 2));
+    normi.merge(obj);
   }
+  console.log(JSON.stringify(normi.get(obj1.id), null, 2));
+  console.log(`total nodes: ${Object.keys(normi.nodes).length}`);
 
   console.log(JSON.stringify(normi.nodes, null, 2));
 };

@@ -1,5 +1,6 @@
 import { action, observable } from 'mobx';
 import { util } from './util';
+
 type NormiParams = {
   id: ((arg: any) => string) | string[];
 };
@@ -7,23 +8,16 @@ type NormiParams = {
 export class Normi {
   params: NormiParams;
   constructor(params: Partial<NormiParams> = {}) {
-    // if (typeof params.id !== 'function' && !Array.isArray(params.id)) {
-    //   throw new Error(`Invalid type for params.id: ${typeof params.id}`);
-    // }
     this.params = {
       id: params.id || ['id'],
     };
   }
 
-  @observable nodes: { [k: string]: { value: any } } = {};
-
-  @action merge = <T extends any>(rawData: T): { value: T } => {
-    let id;
-    const data: any = rawData;
+  getId = (data: any) => {
     if (typeof this.params.id === 'function') {
-      id = this.params.id(data);
+      return this.params.id(data);
     } else if (Array.isArray(this.params.id)) {
-      id = this.params.id
+      return this.params.id
         .map(k => {
           if (data[k] && util.isPrimitive(data[k])) {
             return data[k];
@@ -32,14 +26,27 @@ export class Normi {
         })
         .join('_');
     } else {
-      id = util.randomId();
+      return util.randomId();
     }
+  };
 
-    console.log(`id: ${id}`);
+  get = (id: string) => {
+    return this.nodes[id] || null;
+  };
+
+  @observable nodes: { [k: string]: { value: any } } = {};
+
+  @action merge = <T extends any>(rawData: T): { value: T } => {
+    // let id;
+    const data: any = rawData;
+    const id = this.getId(data);
+
     const node = this.nodes[id] || {};
 
     if (Array.isArray(data)) {
-      node.value = data.map((el: any) => this.merge(el).value);
+      node.value = data.map((el: any) => {
+        return this.merge(el).value;
+      });
     } else if (typeof data === 'object') {
       if (!node.value) node.value = {};
       for (let key in data) {
