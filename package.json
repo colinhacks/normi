@@ -32,7 +32,8 @@
     "test": "tsdx test",
     "lint": "tsdx lint",
     "prepublishOnly": "tsdx build",
-    "play": "nodemon -e ts -w src -x 'tsc --project dev.tsconfig.json && node dist/index.js'"
+    "play": "nodemon -e ts -w src -x ts-node --project dev.tsconfig.json src/playground.ts",
+    "buildplay": "nodemon -e ts -w src -x 'tsc --project dev.tsconfig.json && node dist/index.js'"
   },
   "peerDependencies": {
     "mobx": "^5"

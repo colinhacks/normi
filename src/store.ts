@@ -14,12 +14,14 @@ export class Normi {
   }
 
   getId = (data: any) => {
+    console.log(`getId`);
+    console.log(JSON.stringify(data, null, 2));
     if (typeof this.params.id === 'function') {
       return this.params.id(data);
     } else if (Array.isArray(this.params.id)) {
       return this.params.id
         .map(k => {
-          if (data[k] && util.isPrimitive(data[k])) {
+          if (data && data[k] && util.isPrimitive(data[k])) {
             return data[k];
           }
           return util.randomId();
