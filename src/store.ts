@@ -45,7 +45,9 @@ export class Normi {
 
     const node = this.nodes[id] || {};
 
-    if (Array.isArray(data)) {
+    if (util.isPrimitive(data)) {
+      return { value: data };
+    } else if (Array.isArray(data)) {
       node.value = data.map((el: any) => {
         return this.merge(el).value;
       });
@@ -54,8 +56,6 @@ export class Normi {
       for (let key in data) {
         node.value[key] = this.merge(data[key]).value;
       }
-    } else if (util.isPrimitive(data)) {
-      return { value: data };
     } else {
       node.value = data;
     }
