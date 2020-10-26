@@ -14,8 +14,6 @@ export class Normi {
   }
 
   getId = (data: any) => {
-    console.log(`getId`);
-    console.log(JSON.stringify(data, null, 2));
     if (typeof this.params.id === 'function') {
       return this.params.id(data);
     } else if (Array.isArray(this.params.id)) {

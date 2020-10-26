@@ -24,8 +24,5 @@ export const play = async () => {
 
   const val = normi.merge(obj1);
   console.log(val.value.npi);
-  // console.log(JSON.stringify(normi.get(obj1.id), null, 2));
-  // console.log(`total nodes: ${Object.keys(normi.nodes).length}`);
-  // console.log(JSON.stringify(normi.nodes, null, 2));
 };
 play();
