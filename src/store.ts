@@ -2,7 +2,7 @@ import { action, observable } from 'mobx';
 import { util } from './util';
 
 type NormiParams = {
-  id: ((arg: any) => string) | string[];
+  id: ((arg: any) => string) | string | string[];
 };
 
 export class Normi {
@@ -16,8 +16,13 @@ export class Normi {
   getId = (data: any) => {
     if (typeof this.params.id === 'function') {
       return this.params.id(data);
-    } else if (Array.isArray(this.params.id)) {
-      return this.params.id
+    } else if (
+      typeof this.params.id === 'string' ||
+      Array.isArray(this.params.id)
+    ) {
+      const idKeys =
+        typeof this.params.id === 'string' ? [this.params.id] : this.params.id;
+      return idKeys
         .map(k => {
           if (data && data[k] && util.isPrimitive(data[k])) {
             return data[k];

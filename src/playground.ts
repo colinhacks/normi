@@ -25,4 +25,5 @@ export const play = async () => {
   const val = normi.merge(obj1);
   console.log(val.value.npi);
 };
+
 play();

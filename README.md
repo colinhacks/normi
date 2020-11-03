@@ -43,7 +43,7 @@ Normi is designed to be the easiest possible way to get the benefits of denormal
 
 ### unique identifiers
 
-The hard part is knowing when two objects correspond to the same node. By default, Normi only has two criteria for a node:
+The hard part is knowing when two objects correspond to the same node. **By default**, Normi only has two criteria for a node:
 
 1. Must be a plain JavaScript object (not an array or instance)
 2. Must contain an `id` property
@@ -51,6 +51,19 @@ The hard part is knowing when two objects correspond to the same node. By defaul
 This works great if you're using UUIDs to uniquely identify every object in your database. If you're using auto-incrementing integers (`SERIAL` in Postgres) then this default configuration may not work. You'll run into problems where two objects from different tables have the same ID.
 
 <!-- The second criterion can be configured however. -->
+
+#### Custom ID key
+
+If you use a different key to store object identifers, you can use that instead:
+
+```ts
+const normi = new Normi({ id: '__ID__' });
+
+normi.merge({
+  __ID__: '1234',
+  size: 'Venti',
+});
+```
 
 #### GraphQL
 
@@ -70,7 +83,9 @@ For any other use case, you're able to totally customize ID generation by passin
 const normi = new Normi({
   id: data => {
     // generate a string from your object
-    return data.id;
+    if (data.uid) return data.uid;
+    if (data.id) return `__${data.id}`;
+    return `${Math.random()}`;
   },
 });
 ```

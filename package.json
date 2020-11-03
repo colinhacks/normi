@@ -20,24 +20,22 @@
     "state management",
     "observables"
   ],
-  "main": "dist/index.js",
-  "typings": "dist/index.d.ts",
+  "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
   "files": [
-    "dist"
+    "lib"
   ],
   "scripts": {
-    "clean": "rm -rf dist/*",
+    "clean": "rm -rf lib/*",
     "start": "tsdx watch",
     "build": "npm run clean && tsdx build",
     "test": "tsdx test",
     "lint": "tsdx lint",
     "prepublishOnly": "tsdx build",
     "play": "nodemon -e ts -w src -x ts-node --project dev.tsconfig.json src/playground.ts",
-    "buildplay": "nodemon -e ts -w src -x 'tsc --project dev.tsconfig.json && node dist/index.js'"
+    "buildplay": "nodemon -e ts -w src -x 'tsc --project dev.tsconfig.json && node lib/index.js'"
   },
-  "peerDependencies": {
-    "mobx": "^5"
-  },
+  "peerDependencies": {},
   "husky": {
     "hooks": {
       "pre-commit": "tsdx lint"
@@ -49,11 +47,13 @@
     "singleQuote": true,
     "trailingComma": "es5"
   },
-  "module": "dist/normi.esm.js",
+  "module": "lib/normi.esm.js",
   "devDependencies": {
     "husky": "^4.2.5",
+    "mobx": "^6.0.2",
     "tsdx": "^0.13.2",
     "tslib": "^2.0.0",
     "typescript": "^3.9.5"
-  }
+  },
+  "dependencies": {}
 }
