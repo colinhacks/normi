@@ -4,18 +4,46 @@
 
 ## Motivation
 
-One of the best things about MobX is that it lets you create and use observable objects _without_ worrying about normalization.
+One of the best things about MobX is that it lets you create and use observable objects _without_ worrying about normalization. If you get a big blob of nested JSON back from an API, you can wrap it up as an observable and pass it into your React components. Badda bing, badda boom.
 
-If you get a big blob of nested JSON back from an API, you can wrap it up as an observable and pass it into your React component tree. Badda bing, badda boom.
+So why build a normalized cache on top of MobX? Because it's literally magic.
 
-So why build a normalized cache on top of MobX?
+If you normalize all data coming into your application, there is a _single copy_ of each "object" in your application. What do I mean by "object"? To understand that, let's look at an example.
 
-Because there are zero downsides. Normi essentially gives you normalization for free. So as you fetch various JSON blo
-
-normalization is free
+<!-- normalization is free
 just pass any blob of data into it and Normi deep-merges it into your existing store
 there's only one copy of any object in memory at any time
-tihs makes it impossible to have stale data
+tihs makes it impossible to have stale data -->
+
+## Simple example
+
+```ts
+// First let's create a Normi instance
+const normi = new Normi();
+
+// Now let's pass some data into it!
+normi.merge({ id: '123', name: 'Zendaya' });
+// => { id: "123", name: "Zendaya" }
+```
+
+Makes sense! Normi is built with TypeScript so all type information is preserved. Now let's pass in a more detailed version of Zendaya.
+
+```ts
+normi.merge({
+  id: '123',
+  bestSong: 'Replay',
+  bestMovie: 'Spiderman: Homecoming',
+});
+/* { 
+  id: '123', 
+  name: "Zendaya", 
+  bestSong: "Replay", 
+  bestMovie: "Spiderman: Homecoming" 
+}
+*/
+```
+
+As can see, Normi has merged the two objects, since their `id` properties were equivalent.
 
 ## Example
 
