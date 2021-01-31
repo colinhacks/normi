@@ -1,4 +1,4 @@
-import { action, observable } from 'mobx';
+import { action, makeObservable, observable } from 'mobx';
 import { util } from './util';
 
 type NormiParams = {
@@ -11,6 +11,7 @@ export class Normi {
     this.params = {
       id: params.id || ['id'],
     };
+    makeObservable(this);
   }
 
   getId = (data: any) => {
