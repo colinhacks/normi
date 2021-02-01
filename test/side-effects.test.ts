@@ -1,48 +1,49 @@
 import { autorun } from 'mobx';
 import { Normi } from '../src';
 
-test('nested object', () => {
-  const normi = new Normi();
+describe("changing a property's child node is observable from parent", () => {
+  test('nested object', () => {
+    const normi = new Normi();
 
-  const mainId = '3d16368b-79cc-48f4-8b72-e514ec99315c';
-  const childId = '7c22ad2a-641a-11eb-ae93-0242ac130002';
-  const unrelatedId = '85b4abfe-641a-11eb-ae93-0242ac130002';
+    const mainId = '3d16368b-79cc-48f4-8b72-e514ec99315c';
+    const childId = '7c22ad2a-641a-11eb-ae93-0242ac130002';
+    const unrelatedId = '85b4abfe-641a-11eb-ae93-0242ac130002';
 
-  normi.merge({
-    id: mainId,
-    title: 'first post',
-  });
+    normi.merge({
+      id: mainId,
+      title: 'first post',
+    });
 
-  let updates: any[] = [];
-  const fn = jest.fn(() => {
-    const data = JSON.parse(JSON.stringify(normi.nodes[mainId]));
-    updates.push(data);
-  });
-  autorun(fn);
+    let updates: any[] = [];
+    const fn = jest.fn(() => {
+      const data = JSON.parse(JSON.stringify(normi.nodes[mainId]));
+      updates.push(data);
+    });
+    autorun(fn);
 
-  // update main id
-  normi.merge({
-    id: mainId,
-    foo: 'first post',
-    author: {
+    // update main id
+    normi.merge({
+      id: mainId,
+      foo: 'first post',
+      author: {
+        id: childId,
+        name: 'colin',
+      },
+    });
+    // update child
+    normi.merge({
       id: childId,
-      name: 'colin',
-    },
-  });
-  // update child
-  normi.merge({
-    id: childId,
-    github: 'https://github.com/colinhacks',
-  });
+      github: 'https://github.com/colinhacks',
+    });
 
-  // update unrelated data
-  normi.merge({
-    id: unrelatedId,
-    foo: 'bar',
-  });
+    // update unrelated data
+    normi.merge({
+      id: unrelatedId,
+      foo: 'bar',
+    });
 
-  expect(fn).toHaveBeenCalledTimes(3);
-  expect(updates).toMatchInlineSnapshot(`
+    expect(fn).toHaveBeenCalledTimes(3);
+    expect(updates).toMatchInlineSnapshot(`
     Array [
       Object {
         "value": Object {
@@ -75,4 +76,5 @@ test('nested object', () => {
       },
     ]
   `);
+  });
 });
