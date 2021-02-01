@@ -62,7 +62,7 @@ export class Normi {
       node.value = data.map((el: any) => {
         return this.merge(el).value;
       });
-    } else if (typeof data === 'object') {
+    } else if (util.isPlainObj(data)) {
       if (!node.value) {
         node.value = util.isPlainObj(prevNode?.value) ? prevNode!.value : {};
       }

@@ -7,23 +7,31 @@ export const play = async () => {
   });
 
   const obj1 = {
-    createdAt: '2020-09-22T06:56:51.541Z',
-    uid: 'w2c5dsy8CaUHh6Nvt39xsQLao9R2',
-    firstName: 'Colin',
-    lastName: 'McDonnell',
-    userType: 'Physician',
-    suffix: 'MD',
-    npi: null,
-    ptan: null,
-    dea: null,
-    termsConsent: true,
+    // createdAt: '2020-09-22T06:56:51.541Z',
+    // uid: 'w2c5dsy8CaUHh6Nvt39xsQLao9R2',
+    // firstName: 'Colin',
+    // lastName: 'McDonnell',
+    // userType: 'Physician',
+    // suffix: 'MD',
+    // npi: null,
+    // ptan: null,
+    // dea: null,
+    // termsConsent: true,
     id: '3d16368b-79cc-48f4-8b72-e514ec99315c',
+    nested: {
+      asdf: 'asdf',
+    },
+    qwer: {
+      id: 'asdfasdf',
+      nested: { aqwer: 1234 },
+    },
   };
 
   // const objs = [obj1, obj2, obj3];
 
   const val = normi.merge(obj1);
-  console.log(val.value.npi);
+  console.log(val.value.nested.asdf);
+  console.log(normi.nodes);
 };
 
 play();
