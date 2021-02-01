@@ -154,6 +154,44 @@ test('update node + child node + unrelated data', () => {
     foo: 'bar',
   });
 
+  const numCalls = fn.mock.calls.length;
+  if (numCalls !== 3) {
+    console.error(`Exepected 3 calls`);
+    console.log('Data', updates);
+  }
+
   expect(fn).toHaveBeenCalledTimes(3);
-  // expect(updates).toMatchInlineSnapshot();
+  expect(updates).toMatchInlineSnapshot(`
+    Array [
+      Object {
+        "value": Object {
+          "id": "3d16368b-79cc-48f4-8b72-e514ec99315c",
+          "title": "first post",
+        },
+      },
+      Object {
+        "value": Object {
+          "author": Object {
+            "id": "7c22ad2a-641a-11eb-ae93-0242ac130002",
+            "name": "colin",
+          },
+          "foo": "first post",
+          "id": "3d16368b-79cc-48f4-8b72-e514ec99315c",
+          "title": "first post",
+        },
+      },
+      Object {
+        "value": Object {
+          "author": Object {
+            "github": "https://github.com/colinhacks",
+            "id": "7c22ad2a-641a-11eb-ae93-0242ac130002",
+            "name": "colin",
+          },
+          "foo": "first post",
+          "id": "3d16368b-79cc-48f4-8b72-e514ec99315c",
+          "title": "first post",
+        },
+      },
+    ]
+  `);
 });
