@@ -77,9 +77,10 @@ test('custom id multikey', () => {
 
 test('custom id function', () => {
   const normi = new Normi({
-    id: data => {
-      return `${data.username || Math.random()}__${data.domain ||
-        Math.random()}`;
+    id: (data) => {
+      return `${data.username || Math.random()}__${
+        data.domain || Math.random()
+      }`;
     },
   });
 
