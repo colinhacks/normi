@@ -5,6 +5,10 @@ type NormiParams = {
   id: ((arg: any) => string) | string | string[];
 };
 
+type Node<T> = {
+  value: T;
+};
+
 export class Normi {
   params: NormiParams;
   constructor(params: Partial<NormiParams> = {}) {
@@ -16,37 +20,41 @@ export class Normi {
   getId = (data: any) => {
     if (typeof this.params.id === 'function') {
       return this.params.id(data);
-    } else if (
-      typeof this.params.id === 'string' ||
-      Array.isArray(this.params.id)
-    ) {
+    }
+    if (typeof this.params.id === 'string' || Array.isArray(this.params.id)) {
       const idKeys =
         typeof this.params.id === 'string' ? [this.params.id] : this.params.id;
-      return idKeys
-        .map(k => {
-          if (data && data[k] && util.isPrimitive(data[k])) {
-            return data[k];
-          }
-          return util.randomId();
-        })
-        .join('_');
-    } else {
-      return util.randomId();
+
+      let parts: any[] = [];
+      for (const key of idKeys) {
+        const value = data && data[key];
+        if (!util.isPrimitive(value)) {
+          return null;
+        }
+        parts.push(value);
+      }
+      return parts.join('_');
     }
+
+    return null;
   };
 
   get = (id: string) => {
     return this.nodes[id] || null;
   };
 
-  @observable nodes: { [k: string]: { value: any } } = {};
+  @observable nodes: Record<string, Node<any>> = {};
 
-  @action merge = <T extends any>(rawData: T): { value: T } => {
+  @action merge = <T extends any>(
+    rawData: T,
+    prevNode?: Node<unknown>
+  ): Node<T> => {
     // let id;
     const data: any = rawData;
     const id = this.getId(data);
 
-    const node = this.nodes[id] || {};
+    const node: Node<any> =
+      id && this.nodes[id] ? this.nodes[id] : ({} as Node<any>);
 
     if (util.isPrimitive(data)) {
       return { value: data };
@@ -54,16 +62,22 @@ export class Normi {
       node.value = data.map((el: any) => {
         return this.merge(el).value;
       });
-    } else if (typeof data === 'object') {
-      if (!node.value) node.value = {};
+    } else if (util.isPlainObj(data)) {
+      if (!node.value) {
+        node.value = util.isPlainObj(prevNode?.value) ? prevNode!.value : {};
+      }
+
       for (let key in data) {
-        node.value[key] = this.merge(data[key]).value;
+        const currentNode = node.value[key];
+        node.value[key] = this.merge(data[key], { value: currentNode }).value;
       }
     } else {
       node.value = data;
     }
 
-    this.nodes[id] = node;
-    return this.nodes[id];
+    if (id) {
+      this.nodes[id] = node;
+    }
+    return node;
   };
 }
