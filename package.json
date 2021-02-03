@@ -20,18 +20,20 @@
     "state management",
     "observables"
   ],
-  "main": "lib/index.js",
-  "typings": "lib/index.d.ts",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
   "files": [
-    "lib"
+    "dist"
   ],
   "scripts": {
-    "clean": "rm -rf lib/*",
+    "dev": "yarn start",
     "start": "tsdx watch",
-    "build": "npm run clean && tsdx build",
+    "build": "tsdx build",
     "test": "tsdx test",
     "lint": "tsdx lint",
-    "prepublishOnly": "tsdx build",
+    "prepare": "tsdx build",
+    "size": "size-limit",
+    "analyze": "size-limit --why",
     "play": "nodemon -e ts -w src -x ts-node --project dev.tsconfig.json src/playground.ts",
     "buildplay": "nodemon -e ts -w src -x 'tsc --project dev.tsconfig.json && node lib/index.js'"
   },
@@ -50,7 +52,7 @@
   "module": "lib/normi.esm.js",
   "devDependencies": {
     "husky": "^4.2.5",
-    "tsdx": "^0.13.2",
+    "tsdx": "^0.14.1",
     "tslib": "^2.0.0",
     "typescript": "^3.9.5"
   },
