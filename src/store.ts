@@ -1,4 +1,4 @@
-import { action, observable } from 'mobx';
+import { makeAutoObservable, observable } from 'mobx';
 import { util } from './util';
 
 type NormiParams = {
@@ -11,10 +11,13 @@ type Node<T> = {
 
 export class Normi {
   params: NormiParams;
+  nodes: Record<string, Node<any>>;
   constructor(params: Partial<NormiParams> = {}) {
     this.params = {
       id: params.id || ['id'],
     };
+    makeAutoObservable(this);
+    this.nodes = {};
   }
 
   getId = (data: any) => {
@@ -43,12 +46,7 @@ export class Normi {
     return this.nodes[id] || null;
   };
 
-  @observable nodes: Record<string, Node<any>> = {};
-
-  @action merge = <T extends any>(
-    rawData: T,
-    prevNode?: Node<unknown>
-  ): Node<T> => {
+  merge = <T extends any>(rawData: T, prevNode?: Node<unknown>): Node<T> => {
     // let id;
     const data: any = rawData;
     const id = this.getId(data);
@@ -64,7 +62,9 @@ export class Normi {
       });
     } else if (util.isPlainObj(data)) {
       if (!node.value) {
-        node.value = util.isPlainObj(prevNode?.value) ? prevNode!.value : {};
+        node.value = util.isPlainObj(prevNode?.value)
+          ? prevNode!.value
+          : observable({});
       }
 
       for (let key in data) {
